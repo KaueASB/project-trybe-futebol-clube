@@ -55,7 +55,6 @@ describe('Testando a rota /teams', async () => {
       
       expect(response.status).to.eq(401);
       expect(response.body).to.have.property('message', 'Team not exists')
-      // expect(response.body).to.have.property('teamName')
     })
 
     it('retorna o time caso exista no db ', async () => {
