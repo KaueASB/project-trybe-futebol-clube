@@ -36,4 +36,37 @@ describe('Testando a rota /teams', async () => {
       expect(response.body[0]).to.have.property('id')
     })
   })
+
+  describe('GET /teams:id', () => {
+    it('retorna um erro se não passar um id válido no req.params', async () => {
+      const team = teamMock[0]
+      Sinon.stub(Team, 'findOne').resolves(team as Team)
+      const response = await chai.request(app)
+        .get('/teams/1.1')
+      
+      expect(response.status).to.eq(400);
+      expect(response.body).to.have.property('message', 'Id Invalid')
+    })
+
+    it('retorna um erro se o time não existir no db', async () => {
+      Sinon.stub(Team, 'findOne').resolves(null)
+      const response = await chai.request(app)
+        .get('/teams/454654')
+      
+      expect(response.status).to.eq(401);
+      expect(response.body).to.have.property('message', 'Team not exists')
+      // expect(response.body).to.have.property('teamName')
+    })
+
+    it('retorna o time caso exista no db ', async () => {
+      const team = teamMock[0]
+      Sinon.stub(Team, 'findOne').resolves(team as Team)
+      const response = await chai.request(app)
+        .get('/teams/1')
+      
+      expect(response.status).to.eq(200);
+      expect(response.body).to.have.property('id')
+      expect(response.body).to.have.property('teamName')
+    })
+  })
 })

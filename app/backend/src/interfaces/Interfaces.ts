@@ -31,3 +31,7 @@ export interface ITeam {
   id: number,
   teamName: string
 }
+
+export interface IParamsId {
+  id?: string
+}
