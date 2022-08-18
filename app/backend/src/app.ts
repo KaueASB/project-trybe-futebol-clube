@@ -1,7 +1,11 @@
 import * as express from 'express';
 import 'express-async-errors';
 
-import routeLogin from './routes/route.login';
+import * as cors from 'cors';
+
+import errorHandler from './middlewares/errorHandler';
+
+import routeLogin from './routes/login.route';
 
 class App {
   public app: express.Express;
@@ -25,7 +29,9 @@ class App {
 
     this.app.use(express.json());
     this.app.use(accessControl);
-    this.app.use(routeLogin);
+    this.app.use(cors());
+    this.app.use('/login', routeLogin);
+    this.app.use(errorHandler);
   }
 
   public start(PORT: string | number):void {

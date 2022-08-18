@@ -1,16 +1,16 @@
-import Joi = require('joi');
-import { ILogin } from '../interfaces/ILogin';
+// import Joi = require('joi');
+// import { ILogin } from '../interfaces/Interfaces';
 
-const validation = {
-  async login(body: ILogin) {
-    const schema = Joi.object({
-      email: Joi.string().required().email(),
-      password: Joi.string().min(6).required(),
-    });
+// const validation = {
+//   async login(body: ILogin) {
+//     const schema = Joi.object({
+//       email: Joi.string().required().email(),
+//       password: Joi.string().min(7).required(),
+//     });
 
-    const result = await schema.validateAsync(body);
-    return result;
-  },
-};
+//     const result = await schema.validateAsync(body);
+//     return result;
+//   },
+// };
 
-export default validation;
+// export default validation;
