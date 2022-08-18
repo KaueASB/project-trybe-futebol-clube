@@ -6,7 +6,7 @@ const validation = {
   async login(body: ILogin) {
     try {
       const schema = Joi.object({
-        email: Joi.string().required().email(),
+        email: Joi.string().required(),
         password: Joi.string().min(7).required(),
       });
       const result = await schema.validateAsync(body);
