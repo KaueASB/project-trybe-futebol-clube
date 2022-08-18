@@ -6,12 +6,9 @@ const validation = {
   async login(body: ILogin) {
     try {
       const schema = Joi.object({
-        email: Joi.string().required().email().messages({
-          'string.email': 'All fields must be filled',
-        }),
+        email: Joi.string().required().email(),
         password: Joi.string().min(7).required(),
       });
-
       const result = await schema.validateAsync(body);
       return result;
     } catch (error) {
