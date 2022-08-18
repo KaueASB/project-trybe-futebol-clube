@@ -39,7 +39,7 @@ describe('Testando a rota login', () => {
         .send(login);
       
       expect(response.status).to.eq(401);
-      expect(response.body).to.have.property('message', 'Email or password incorrect');
+      expect(response.body).to.have.property('message', 'Incorrect email or password');
     })
 
     it('retorna um erro se o email não for passado', async () => {
@@ -48,7 +48,7 @@ describe('Testando a rota login', () => {
         .post('/login')
         .send(login);
         expect(response.status).to.eq(401);
-        expect(response.body).to.have.property('message', 'Email or password incorrect');
+        expect(response.body).to.have.property('message', 'Incorrect email or password');
     })
 
     it('retorna um erro se o password estiver incorreto', async () => {
@@ -58,7 +58,7 @@ describe('Testando a rota login', () => {
         .send(login);
       
       expect(response.status).to.eq(401);
-      expect(response.body).to.have.property('message', 'Email or password incorrect');
+      expect(response.body).to.have.property('message', 'Incorrect email or password');
     })
 
     it('retorna um token se as informações de login estiverem corretas', async () => {

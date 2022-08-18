@@ -20,10 +20,10 @@ export default class UserService {
 
   static async login({ email, password }: ILogin) {
     const user = await User.findOne({ where: { email }, raw: true });
-    if (!user) throw new ThrowErrors('unauthorizedError', 'Email or password incorrect');
+    if (!user) throw new ThrowErrors('unauthorizedError', 'Incorrect email or password');
 
     const passValid = await bcrypt.compare(password, user.password);
-    if (!passValid) throw new ThrowErrors('unauthorizedError', 'Email or password incorrect');
+    if (!passValid) throw new ThrowErrors('unauthorizedError', 'Incorrect email or password');
 
     const { password: pass, ...payload } = user;
     const token = UserService.createToken(payload);
