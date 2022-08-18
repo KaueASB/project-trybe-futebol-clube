@@ -6,6 +6,7 @@ import * as cors from 'cors';
 import errorHandler from './middlewares/errorHandler';
 
 import routeLogin from './routes/login.route';
+import routeTeams from './routes/teams.route';
 
 class App {
   public app: express.Express;
@@ -31,6 +32,7 @@ class App {
     this.app.use(accessControl);
     this.app.use(cors());
     this.app.use('/login', routeLogin);
+    this.app.use('/teams', routeTeams);
     this.app.use(errorHandler);
   }
 

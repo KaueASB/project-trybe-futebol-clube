@@ -26,3 +26,8 @@ export interface IJwt extends Jwt {
 export interface IRequestUserToken extends Request {
   user?: Jwt
 }
+
+export interface ITeam {
+  id: number,
+  teamName: string
+}
