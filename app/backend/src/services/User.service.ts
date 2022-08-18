@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
-import { sign, SignOptions } from 'jsonwebtoken';
+import { sign, SignOptions, verify } from 'jsonwebtoken';
 
-import { IUserNoPass, ILogin } from '../interfaces/Interfaces';
+import { IUserNoPass, ILogin, IJwt } from '../interfaces/Interfaces';
 import ThrowErrors from '../middlewares/ThrowErros';
 import User from '../database/models/User';
 
@@ -13,7 +13,6 @@ export default class UserService {
       expiresIn: '2d',
       algorithm: 'HS256',
     };
-
     const token = sign(payload, secret, config);
     return token;
   }
@@ -29,5 +28,15 @@ export default class UserService {
     const token = UserService.createToken(payload);
 
     return token;
+  }
+
+  static validateToken(tokenHeader: string | undefined): IJwt {
+    if (!tokenHeader) throw new ThrowErrors('notFoundError', 'Token not Found');
+
+    const [token] = tokenHeader.split(' ');
+
+    const data = verify(token, secret, { complete: true });
+
+    return data as IJwt;
   }
 }
