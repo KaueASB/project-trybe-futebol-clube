@@ -33,10 +33,13 @@ export default class UserService {
   static validateToken(tokenHeader: string | undefined): IJwt {
     if (!tokenHeader) throw new ThrowErrors('notFoundError', 'Token not Found');
 
-    const [token] = tokenHeader.split(' ');
+    if (tokenHeader.includes(' ')) {
+      const [, token] = tokenHeader.split(' ');
+      const data = verify(token, secret, { complete: true });
+      return data as IJwt;
+    }
 
-    const data = verify(token, secret, { complete: true });
-
-    return data as IJwt;
+    const result = verify(tokenHeader, secret, { complete: true });
+    return result as IJwt;
   }
 }
