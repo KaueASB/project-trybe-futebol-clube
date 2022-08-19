@@ -47,6 +47,7 @@ Match.init({
   sequelize: db,
   modelName: 'matches',
   timestamps: false,
+  underscored: true,
 });
 
 Team.hasMany(Match, { foreignKey: 'homeTeam', as: 'teamHome' });

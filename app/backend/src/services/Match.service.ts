@@ -1,5 +1,3 @@
-// import Team from '../database/models/Team';
-// import Team from '../database/models/Team';
 import Match from '../database/models/Match';
 
 export default class MatchService {
@@ -11,5 +9,16 @@ export default class MatchService {
       ],
     });
     return allMatches;
+  }
+
+  static async getProgress(inProgress: boolean) {
+    const matches = await Match.findAll({
+      where: { inProgress },
+      include: [
+        { association: 'teamHome', attributes: ['teamName'] },
+        { association: 'teamAway', attributes: ['teamName'] },
+      ],
+    });
+    return matches;
   }
 }

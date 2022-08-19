@@ -35,3 +35,7 @@ export interface ITeam {
 export interface IParamsId {
   id?: string
 }
+
+// export interface IQueryInProgress {
+//   inProgress?: boolean
+// }
