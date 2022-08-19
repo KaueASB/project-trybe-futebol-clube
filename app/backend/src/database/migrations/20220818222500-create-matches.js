@@ -42,6 +42,7 @@ module.exports = {
       },
       inProgress: {
         type: Sequelize.BOOLEAN,
+        defaultValue: true,
         allowNull: false,
         field: 'in_progress',
       },

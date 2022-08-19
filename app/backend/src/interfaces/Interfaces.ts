@@ -36,6 +36,14 @@ export interface IParamsId {
   id?: string
 }
 
-// export interface IQueryInProgress {
-//   inProgress?: boolean
-// }
+export interface IAddMatch {
+  homeTeam: number,
+  homeTeamGoals: number,
+  awayTeam: number,
+  awayTeamGoals: number,
+}
+
+export interface ICreatedMatch extends IAddMatch {
+  id: number,
+  inProgress: boolean
+}

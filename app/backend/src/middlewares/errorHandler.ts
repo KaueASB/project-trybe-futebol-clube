@@ -10,7 +10,6 @@ const errors: Record<string, number> = {
 
 const errorHandler: ErrorRequestHandler = (err: ThrowErrors, _req, res, _next) => {
   const { name, message } = err;
-  console.log(name);
 
   const status = errors[name[0].toLowerCase() + name.slice(1)];
 

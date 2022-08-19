@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import validation from '../services/validations';
 import MatchService from '../services/Match.service';
 
 export default class MatchController {
@@ -10,5 +11,12 @@ export default class MatchController {
     }
     const allMatches = await MatchService.getAll();
     res.status(200).json(allMatches);
+  }
+
+  static async addMatch(req: Request, res: Response) {
+    const bodyValid = await validation.bodyMatch(req.body);
+    await MatchService.exists(bodyValid);
+    const createdMatch = await MatchService.addMatch(req.body);
+    res.status(201).json(createdMatch);
   }
 }

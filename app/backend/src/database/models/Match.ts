@@ -40,8 +40,9 @@ Match.init({
   },
   inProgress: {
     type: BOOLEAN,
-    field: 'in_progress',
     allowNull: false,
+    defaultValue: true,
+    field: 'in_progress',
   },
 }, {
   sequelize: db,

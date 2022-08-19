@@ -1,4 +1,4 @@
-const mockMatches = [
+export const mockMatches = [
   {
     id: 39,
     homeTeam: 3,
@@ -57,4 +57,23 @@ const mockMatches = [
   },
 ];
 
-export default mockMatches;
+export const mockTeamsExists = [
+  { id: 16, teamName: 'São Paulo' },
+  { id: 8, teamName: 'Grêmio' },
+];
+
+export const addMatch = {
+  homeTeam: 1,
+  awayTeam: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+};
+
+export const createdMatch = {
+  inProgress: true,
+  id: 1,
+  homeTeam: 1,
+  awayTeam: 8,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+};
