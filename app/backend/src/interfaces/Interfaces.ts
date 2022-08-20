@@ -24,7 +24,7 @@ export interface IJwt extends Jwt {
 }
 
 export interface IRequestUserToken extends Request {
-  user?: Jwt | void
+  user?: Jwt
 }
 
 export interface ITeam {
@@ -36,11 +36,14 @@ export interface IParamsId {
   id?: string
 }
 
-export interface IAddMatch {
-  homeTeam: number,
+export interface IUpdateMatch {
   homeTeamGoals: number,
-  awayTeam: number,
   awayTeamGoals: number,
+}
+
+export interface IAddMatch extends IUpdateMatch {
+  homeTeam: number,
+  awayTeam: number,
 }
 
 export interface ICreatedMatch extends IAddMatch {

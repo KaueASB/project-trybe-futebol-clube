@@ -1,4 +1,4 @@
-import { IAddMatch, ICreatedMatch } from '../interfaces/Interfaces';
+import { IAddMatch, ICreatedMatch, IUpdateMatch } from '../interfaces/Interfaces';
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
 import ThrowErrors from '../middlewares/ThrowErros';
@@ -64,6 +64,17 @@ export default class MatchService {
 
   static async finishMatch(id: number) {
     await Match.update({ inProgress: false }, {
+      where: {
+        id,
+      },
+    });
+  }
+
+  static async updateMatch(id: number, { homeTeamGoals, awayTeamGoals }: IUpdateMatch) {
+    await Match.update({
+      homeTeamGoals,
+      awayTeamGoals,
+    }, {
       where: {
         id,
       },

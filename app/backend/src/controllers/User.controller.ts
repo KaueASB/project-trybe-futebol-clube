@@ -6,8 +6,7 @@ import validation from '../services/validations';
 
 export default class UserController {
   static async validateRole(req: IRequestUserToken, res: Response) {
-    const role = req.user?.payload.role;
-    res.status(200).json({ role });
+    res.status(200).json({ role: req.user?.payload.role });
   }
 
   static async login(req: Request, res: Response) {

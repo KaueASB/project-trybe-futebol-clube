@@ -25,4 +25,11 @@ export default class MatchController {
     await MatchService.finishMatch(id);
     res.status(200).json({ message: 'Finished' });
   }
+
+  static async updateMatch(req: Request, res: Response) {
+    const { id } = await validation.params(req.params);
+    await MatchService.getOne(id);
+    await MatchService.updateMatch(id, req.body);
+    res.status(200).json({ message: 'Match updated' });
+  }
 }

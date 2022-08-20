@@ -118,6 +118,15 @@ describe('Testando a rota /login', () => {
       expect(response.body).to.have.property('message', 'Token must be a valid token');
     })
 
+    it('retorna um erro se o token não for válido', async () => {
+      const response = await chai.request(app)
+        .get('/login/validate')
+        .auth('token', { type: 'bearer' })
+        
+      expect(response.status).to.eq(401);
+      expect(response.body).to.have.property('message', 'Token must be a valid token');
+    })
+
     it('retorna a role do usuário caso o token esteja correto', async () => {
       Sinon.stub(User, 'findOne').resolves(userMock as User);
       const res = await chai.request(app)
@@ -126,7 +135,7 @@ describe('Testando a rota /login', () => {
     
       const response = await chai.request(app)
         .get('/login/validate')
-        .auth(res.body.token, {type: 'bearer'})
+        .auth(res.body.token, { type: 'bearer' })
       
       expect(response.status).to.eq(200);
       expect(response.body).to.have.property('role');
