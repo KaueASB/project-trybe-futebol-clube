@@ -69,6 +69,13 @@ export const addMatch = {
   awayTeamGoals: 2,
 };
 
+export const teamEquals = {
+  homeTeam: 1,
+  awayTeam: 1,
+  homeTeamGoals: 2,
+  awayTeamGoals: 2,
+};
+
 export const createdMatch = {
   inProgress: true,
   id: 1,

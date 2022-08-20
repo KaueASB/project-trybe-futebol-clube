@@ -1,6 +1,6 @@
 import Joi = require('joi');
 import ThrowErrors from '../middlewares/ThrowErros';
-import { IAddMatch, ILogin, IParamsId } from '../interfaces/Interfaces';
+import { ILogin, IParamsId } from '../interfaces/Interfaces';
 
 const validation = {
   async login(body: ILogin) {
@@ -29,23 +29,23 @@ const validation = {
     }
   },
 
-  async bodyMatch(body: IAddMatch) {
-    try {
-      const schema = Joi.object({
-        homeTeam: Joi.number().required().positive().integer(),
-        homeTeamGoals: Joi.number().required().positive().integer(),
-        awayTeam: Joi.number().required().positive().integer(),
-        awayTeamGoals: Joi.number().required().positive().integer(),
-      });
-      const result = await schema.validateAsync(body);
-      return result;
-    } catch (error) {
-      throw new ThrowErrors(
-        'validationError',
-        'All fields are mandatory and must be filled in with numbers',
-      );
-    }
-  },
+  // async bodyMatch(body: IAddMatch) {
+  //   try {
+  //     const schema = Joi.object({
+  //       homeTeam: Joi.number().required().positive().integer(),
+  //       homeTeamGoals: Joi.number().required().positive().integer(),
+  //       awayTeam: Joi.number().required().positive().integer(),
+  //       awayTeamGoals: Joi.number().required().positive().integer(),
+  //     });
+  //     const result = await schema.validateAsync(body);
+  //     return result;
+  //   } catch (error) {
+  //     throw new ThrowErrors(
+  //       'validationError',
+  //       'All fields are mandatory and must be filled in with numbers',
+  //     );
+  //   }
+  // },
 };
 
 export default validation;

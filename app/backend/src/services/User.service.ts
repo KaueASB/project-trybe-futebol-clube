@@ -31,7 +31,7 @@ export default class UserService {
   }
 
   static validateToken(tokenHeader: string | undefined): IJwt {
-    if (!tokenHeader) throw new ThrowErrors('notFoundError', 'Token not Found');
+    if (!tokenHeader) throw new ThrowErrors('unauthorizedError', 'Token not Found');
 
     if (tokenHeader.includes(' ')) {
       const [, token] = tokenHeader.split(' ');

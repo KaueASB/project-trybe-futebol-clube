@@ -47,3 +47,20 @@ export interface ICreatedMatch extends IAddMatch {
   id: number,
   inProgress: boolean
 }
+
+export interface IMatchAss extends ICreatedMatch {
+  teamHome: {
+    teamName: string
+  },
+
+  teamAway: {
+    teamName: string
+  }
+}
+
+// export interface IFinishMatch {
+//   homeTeam?: number,
+//   homeTeamGoals?: number,
+//   awayTeam?: number,
+//   awayTeamGoals?: number,
+// }

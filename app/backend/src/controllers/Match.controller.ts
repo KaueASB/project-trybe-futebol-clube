@@ -14,9 +14,16 @@ export default class MatchController {
   }
 
   static async addMatch(req: Request, res: Response) {
-    const bodyValid = await validation.bodyMatch(req.body);
-    await MatchService.exists(bodyValid);
+    // const bodyValid = await validation.bodyMatch(req.body);
+    await MatchService.existTeams(req.body);
     const createdMatch = await MatchService.addMatch(req.body);
     res.status(201).json(createdMatch);
+  }
+
+  static async finishMatch(req: Request, res: Response) {
+    const { id } = await validation.params(req.params);
+    await MatchService.getOne(id);
+    await MatchService.finishMatch(id);
+    res.status(200).json({ message: 'Finished' });
   }
 }

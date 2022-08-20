@@ -4,6 +4,16 @@ import Team from '../database/models/Team';
 import ThrowErrors from '../middlewares/ThrowErros';
 
 export default class MatchService {
+  static async getOne(id: number) {
+    const match = await Match.findByPk(id);
+    if (!match) {
+      throw new ThrowErrors(
+        'validationError',
+        'Match not exists',
+      );
+    }
+  }
+
   static async getAll() {
     const allMatches = await Match.findAll({
       include: [
@@ -25,23 +35,38 @@ export default class MatchService {
     return matches;
   }
 
-  static async exists({ homeTeam, awayTeam }: IAddMatch) {
+  static async existTeams({ homeTeam, awayTeam }: IAddMatch) {
+    if (homeTeam === awayTeam) {
+      throw new ThrowErrors(
+        'notFoundError',
+        'It is not possible to create a match with two equal teams',
+      );
+    }
+
     const teams = [homeTeam, awayTeam];
     const existTeams = await Promise.all(
       teams.map((team) => Team.findByPk(team, { raw: true })),
     );
 
-    if (!existTeams.every((item) => item)) {
+    if (!existTeams.every((team) => team)) {
       throw new ThrowErrors('validationError', 'Team(s) Invalid(s)');
     }
 
     return existTeams;
   }
 
-  static async addMatch({ ...args }: IAddMatch): Promise<ICreatedMatch> {
+  static async addMatch({ ...args }: IAddMatch) {
     const match = await Match.create({
       ...args,
     });
     return match as ICreatedMatch;
+  }
+
+  static async finishMatch(id: number) {
+    await Match.update({ inProgress: false }, {
+      where: {
+        id,
+      },
+    });
   }
 }

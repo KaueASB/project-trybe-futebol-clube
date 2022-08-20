@@ -6,9 +6,9 @@ import * as Sinon from 'sinon'
 import { app } from '../app'
 import Match from '../database/models/Match';
 import Team from '../database/models/Team';
-import { ILogin, ITeam } from '../interfaces/Interfaces';
+import { ILogin, IMatchAss } from '../interfaces/Interfaces';
 
-import { addMatch, createdMatch, mockMatches, mockTeamsExists } from '../mocks/mock.matches'
+import { addMatch, createdMatch, mockMatches, mockTeamsExists, teamEquals } from '../mocks/mock.matches'
 
 const { expect } = chai;
 
@@ -81,9 +81,71 @@ describe('Testando a rota /matches', async () => {
       expect(response.body).to.have.property('message', 'Team(s) Invalid(s)')
     })
 
-    it('retorna um erro se os homeTeam não for válido ou enviado', async () => {
-      const {homeTeam, ...rest} = addMatch
+    // it('retorna um erro se os homeTeam não for válido ou enviado', async () => {
+    //   const {homeTeam, ...rest} = addMatch
 
+    //   const res = await chai.request(app)
+    //     .post('/login')
+    //     .send(login)
+      
+    //   const response = await chai.request(app)
+    //     .post('/matches')
+    //     .auth(res.body.token, { type: 'bearer' })
+    //     .send(rest)
+      
+    //   expect(response.status).to.eq(400);
+    //   expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
+    // })
+
+    // it('retorna um erro se os homeTeamGoals não for válido ou enviado', async () => {
+    //   const {homeTeamGoals, ...rest} = addMatch
+
+    //   const res = await chai.request(app)
+    //     .post('/login')
+    //     .send(login)
+      
+    //   const response = await chai.request(app)
+    //     .post('/matches')
+    //     .auth(res.body.token, { type: 'bearer' })
+    //     .send(rest)
+      
+    //   expect(response.status).to.eq(400);
+    //   expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
+    // })
+
+    // it('retorna um erro se os awayTeam não for válido ou enviado', async () => {
+    //   const {awayTeam, ...rest} = addMatch
+
+    //   const res = await chai.request(app)
+    //     .post('/login')
+    //     .send(login)
+      
+    //   const response = await chai.request(app)
+    //     .post('/matches')
+    //     .auth(res.body.token, { type: 'bearer' })
+    //     .send(rest)
+      
+    //   expect(response.status).to.eq(400);
+    //   expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
+    // })
+
+    // it('retorna um erro se os awayTeamGoals não for válido ou enviado', async () => {
+    //   const {awayTeamGoals, ...rest} = addMatch
+
+    //   const res = await chai.request(app)
+    //     .post('/login')
+    //     .send(login)
+      
+    //   const response = await chai.request(app)
+    //     .post('/matches')
+    //     .auth(res.body.token, { type: 'bearer' })
+    //     .send(rest)
+      
+    //   expect(response.status).to.eq(400);
+    //   expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
+    // })
+
+    it('retorna um erro se os times forem iguais', async () => {
       const res = await chai.request(app)
         .post('/login')
         .send(login)
@@ -91,58 +153,10 @@ describe('Testando a rota /matches', async () => {
       const response = await chai.request(app)
         .post('/matches')
         .auth(res.body.token, { type: 'bearer' })
-        .send(rest)
+        .send(teamEquals)
       
-      expect(response.status).to.eq(400);
-      expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
-    })
-
-    it('retorna um erro se os homeTeamGoals não for válido ou enviado', async () => {
-      const {homeTeamGoals, ...rest} = addMatch
-
-      const res = await chai.request(app)
-        .post('/login')
-        .send(login)
-      
-      const response = await chai.request(app)
-        .post('/matches')
-        .auth(res.body.token, { type: 'bearer' })
-        .send(rest)
-      
-      expect(response.status).to.eq(400);
-      expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
-    })
-
-    it('retorna um erro se os awayTeam não for válido ou enviado', async () => {
-      const {awayTeam, ...rest} = addMatch
-
-      const res = await chai.request(app)
-        .post('/login')
-        .send(login)
-      
-      const response = await chai.request(app)
-        .post('/matches')
-        .auth(res.body.token, { type: 'bearer' })
-        .send(rest)
-      
-      expect(response.status).to.eq(400);
-      expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
-    })
-
-    it('retorna um erro se os awayTeamGoals não for válido ou enviado', async () => {
-      const {awayTeamGoals, ...rest} = addMatch
-
-      const res = await chai.request(app)
-        .post('/login')
-        .send(login)
-      
-      const response = await chai.request(app)
-        .post('/matches')
-        .auth(res.body.token, { type: 'bearer' })
-        .send(rest)
-      
-      expect(response.status).to.eq(400);
-      expect(response.body).to.have.property('message', 'All fields are mandatory and must be filled in with numbers')
+      expect(response.status).to.eq(401);
+      expect(response.body).to.have.property('message', 'It is not possible to create a match with two equal teams')
     })
 
     it('retorna a partida criada se os dados estiverem corretos', async () => {
@@ -161,6 +175,33 @@ describe('Testando a rota /matches', async () => {
       expect(response.body).to.have.an('object')
       expect(response.body).to.have.property('id')
       expect(response.body).to.have.property('inProgress', true)
+    })
+
+    it('retorna um erro se a partida que será finalizada não existe', async () => {
+      Sinon.stub(Match, 'findByPk').resolves(null)
+      
+      const response = await chai.request(app)
+        .patch('/matches/1000/finish')
+      
+      expect(response.status).to.eq(400);
+      expect(response.body).to.have.property('message', 'Match not exists')
+    })
+
+    it('verificar se é possível finalizar uma partida se os dados estiverem válidos', async () => {
+      const match = mockMatches[3]
+      
+      const response = await chai.request(app)
+        .patch('/matches/42/finish')
+      
+      const res = await chai.request(app)
+        .get('/matches')
+      
+      const expected = match.inProgress !== res.body[41]
+      
+      
+      expect(expected).to.be.true;
+      expect(response.status).to.eq(200);
+      expect(response.body).to.have.property('message', 'Finished')
     })
   })
 })
