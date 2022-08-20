@@ -84,3 +84,8 @@ export const createdMatch = {
   homeTeamGoals: 2,
   awayTeamGoals: 2,
 };
+
+export const updateGoals = {
+  homeTeamGoals: 200,
+  awayTeamGoals: 100,
+};

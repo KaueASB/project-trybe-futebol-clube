@@ -8,7 +8,7 @@ import Match from '../database/models/Match';
 import Team from '../database/models/Team';
 import { ILogin, IMatchAss } from '../interfaces/Interfaces';
 
-import { addMatch, createdMatch, mockMatches, mockTeamsExists, teamEquals } from '../mocks/mock.matches'
+import { addMatch, createdMatch, mockMatches, mockTeamsExists, teamEquals, updateGoals } from '../mocks/mock.matches'
 
 const { expect } = chai;
 
@@ -176,7 +176,9 @@ describe('Testando a rota /matches', async () => {
       expect(response.body).to.have.property('id')
       expect(response.body).to.have.property('inProgress', true)
     })
+  })
 
+  describe('/PATCH matches', () => {
     it('retorna um erro se a partida que será finalizada não existe', async () => {
       Sinon.stub(Match, 'findByPk').resolves(null)
       
@@ -187,7 +189,7 @@ describe('Testando a rota /matches', async () => {
       expect(response.body).to.have.property('message', 'Match not exists')
     })
 
-    it('verificar se é possível finalizar uma partida se os dados estiverem válidos', async () => {
+    it('verifica se é possível finalizar uma partida se os dados estiverem válidos', async () => {
       const match = mockMatches[3]
       
       const response = await chai.request(app)
@@ -202,6 +204,35 @@ describe('Testando a rota /matches', async () => {
       expect(expected).to.be.true;
       expect(response.status).to.eq(200);
       expect(response.body).to.have.property('message', 'Finished')
+    })
+
+    it('retorna um erro se a partida que será finalizada não existe', async () => {
+      Sinon.stub(Match, 'findByPk').resolves(null)
+      
+      const response = await chai.request(app)
+        .patch('/matches/1000')
+      
+      expect(response.status).to.eq(400);
+      expect(response.body).to.have.property('message', 'Match not exists')
+    })
+
+    it('verifica se é possível alterar o placar de uma partida se os dados estiverem válidos', async () => {
+      const match = mockMatches[3]
+
+      const res = await chai.request(app)
+        .get('/matches')
+      
+      const response = await chai.request(app)
+        .patch('/matches/42/')
+        .send(updateGoals)
+      
+      const goalsHome = match.homeTeamGoals !== res.body[41]
+      const goalsAway = match.awayTeamGoals !== res.body[41]      
+      
+      expect(goalsHome).to.be.true;
+      expect(goalsAway).to.be.true;
+      expect(response.status).to.eq(200);
+      expect(response.body).to.have.property('message', 'Match updated')
     })
   })
 })
