@@ -13,7 +13,7 @@ export default class TeamService {
       where: { id }, raw: true,
     });
 
-    if (!team) throw new ThrowErrors('notFoundError', 'Team not exists');
+    if (!team) throw new ThrowErrors('unauthorizedError', 'Team not exists');
     return team as ITeam;
   }
 }

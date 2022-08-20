@@ -3,7 +3,7 @@ import ThrowErrors from './ThrowErros';
 
 const errors: Record<string, number> = {
   unauthorizedError: 401,
-  notFoundError: 401,
+  notFoundError: 404,
   validationError: 400,
   requiredError: 400,
 };

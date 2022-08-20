@@ -38,7 +38,7 @@ export default class MatchService {
   static async existTeams({ homeTeam, awayTeam }: IAddMatch) {
     if (homeTeam === awayTeam) {
       throw new ThrowErrors(
-        'notFoundError',
+        'unauthorizedError',
         'It is not possible to create a match with two equal teams',
       );
     }
@@ -49,7 +49,7 @@ export default class MatchService {
     );
 
     if (!existTeams.every((team) => team)) {
-      throw new ThrowErrors('validationError', 'Team(s) Invalid(s)');
+      throw new ThrowErrors('notFoundError', 'There is no team with such id!');
     }
 
     return existTeams;

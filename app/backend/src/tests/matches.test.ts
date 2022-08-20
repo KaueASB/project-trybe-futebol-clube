@@ -77,8 +77,8 @@ describe('Testando a rota /matches', async () => {
         .auth(res.body.token, { type: 'bearer' })
         .send(addMatch)
       
-      expect(response.status).to.eq(400);
-      expect(response.body).to.have.property('message', 'Team(s) Invalid(s)')
+      expect(response.status).to.eq(404);
+      expect(response.body).to.have.property('message', 'There is no team with such id!')
     })
 
     // it('retorna um erro se os homeTeam não for válido ou enviado', async () => {
