@@ -14,7 +14,6 @@ export default class MatchController {
   }
 
   static async addMatch(req: Request, res: Response) {
-    // const bodyValid = await validation.bodyMatch(req.body);
     await MatchService.existTeams(req.body);
     const createdMatch = await MatchService.addMatch(req.body);
     res.status(201).json(createdMatch);

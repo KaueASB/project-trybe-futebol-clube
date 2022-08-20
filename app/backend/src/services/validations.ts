@@ -28,24 +28,6 @@ const validation = {
       throw new ThrowErrors('validationError', 'Id Invalid');
     }
   },
-
-  // async bodyMatch(body: IAddMatch) {
-  //   try {
-  //     const schema = Joi.object({
-  //       homeTeam: Joi.number().required().positive().integer(),
-  //       homeTeamGoals: Joi.number().required().positive().integer(),
-  //       awayTeam: Joi.number().required().positive().integer(),
-  //       awayTeamGoals: Joi.number().required().positive().integer(),
-  //     });
-  //     const result = await schema.validateAsync(body);
-  //     return result;
-  //   } catch (error) {
-  //     throw new ThrowErrors(
-  //       'validationError',
-  //       'All fields are mandatory and must be filled in with numbers',
-  //     );
-  //   }
-  // },
 };
 
 export default validation;

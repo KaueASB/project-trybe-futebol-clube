@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
-import { sign, SignOptions, verify } from 'jsonwebtoken';
+import { sign, SignOptions } from 'jsonwebtoken';
 
-import { IUserNoPass, ILogin, IJwt } from '../interfaces/Interfaces';
+import { IUserNoPass, ILogin } from '../interfaces/Interfaces';
 import ThrowErrors from '../middlewares/ThrowErros';
 import User from '../database/models/User';
 
@@ -30,16 +30,12 @@ export default class UserService {
     return token;
   }
 
-  static validateToken(tokenHeader: string | undefined): IJwt {
-    if (!tokenHeader) throw new ThrowErrors('unauthorizedError', 'Token not Found');
+  // static validateToken(tokenHeader: string): Jwt | void {
+  //   const token = tokenHeader.includes('Bearer') ? tokenHeader.split(' ')[1] : tokenHeader;
 
-    if (tokenHeader.includes(' ')) {
-      const [, token] = tokenHeader.split(' ');
-      const data = verify(token, secret, { complete: true });
-      return data as IJwt;
-    }
-
-    const result = verify(tokenHeader, secret, { complete: true });
-    return result as IJwt;
-  }
+  //   verify(token, secret, { complete: true }, (err, decoded) => {
+  //     if (err) throw new ThrowErrors('unauthorizedError', 'Token must be a valid token');
+  //     return decoded as Jwt | undefined;
+  //   });
+  // }
 }

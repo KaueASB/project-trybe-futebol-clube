@@ -115,7 +115,7 @@ describe('Testando a rota /login', () => {
         .get('/login/validate')
         
       expect(response.status).to.eq(401);
-      expect(response.body).to.have.property('message', 'Token not Found');
+      expect(response.body).to.have.property('message', 'Token must be a valid token');
     })
 
     it('retorna a role do usuário caso o token esteja correto', async () => {
