@@ -8,6 +8,7 @@ import errorHandler from './middlewares/errorHandler';
 import routeLogin from './routes/login.route';
 import routeTeams from './routes/teams.route';
 import routeMatches from './routes/matches.route';
+import routeLeaderboard from './routes/leaderboard.route';
 
 class App {
   public app: express.Express;
@@ -35,6 +36,7 @@ class App {
     this.app.use('/login', routeLogin);
     this.app.use('/teams', routeTeams);
     this.app.use('/matches', routeMatches);
+    this.app.use('/leaderboard', routeLeaderboard);
     this.app.use(errorHandler);
   }
 
