@@ -1,8 +1,25 @@
+// import { Op } from 'sequelize';
 import Team from '../database/models/Team';
 import Match from '../database/models/Match';
 import { ICreatedMatch, ILeaderboard } from '../interfaces/Interfaces';
 
 export default class LeaderboardService {
+  // static async generalMatches(id: number) {
+  //   const matches = await Match.findAll({
+  //     raw: true,
+  //     where: {
+  //       inProgress: false,
+  //       [Op.or]: [
+  //         { homeTeam: id },
+  //         { awayTeam: id },
+
+  //       ],
+  //     },
+  //   });
+
+  //   return matches;
+  // }
+
   static async homeMatches(id: number) {
     const homeTeam = await Match.findAll({
       raw: true,
@@ -17,6 +34,27 @@ export default class LeaderboardService {
       where: { awayTeam: id, inProgress: false },
     });
     return awayTeam;
+  }
+
+  static createGeneralLeaderboard(boardHome: ILeaderboard, boardAway: ILeaderboard) {
+    const totalGames = boardHome.totalGames + boardAway.totalGames;
+    const totalVictories = boardHome.totalVictories + boardAway.totalVictories;
+    const totalDraws = boardHome.totalDraws + boardAway.totalDraws;
+    const totalLosses = boardHome.totalLosses + boardAway.totalLosses;
+    const totalPoints = (totalVictories * 3) + totalDraws;
+    const goalsFavor = boardHome.goalsFavor + boardAway.goalsFavor;
+    const goalsOwn = boardHome.goalsOwn + boardAway.goalsOwn;
+    const goalsBalance = goalsFavor - goalsOwn;
+    const efficiency = ((totalPoints / (totalGames * 3)) * 100).toFixed(2);
+    return { totalPoints,
+      totalGames,
+      totalVictories,
+      totalDraws,
+      totalLosses,
+      goalsFavor,
+      goalsOwn,
+      goalsBalance,
+      efficiency };
   }
 
   static createLeaderboardHome(matches: ICreatedMatch[]): ILeaderboard {
@@ -67,6 +105,22 @@ export default class LeaderboardService {
       || b.goalsFavor - a.goalsFavor || b.goalsOwn - a.goalsOwn);
 
     return sorted;
+  }
+
+  static async getGeneralMatches() {
+    const allTeams = await Team.findAll();
+    const general = await Promise.all(allTeams.map(async ({ id, teamName }) => {
+      const matchesListHome = await LeaderboardService.homeMatches(id);
+      const leaderBoardHome = LeaderboardService.createLeaderboardHome(matchesListHome);
+
+      const matchesListAway = await LeaderboardService.awayMatches(id);
+      const leaderBoardAway = LeaderboardService.createLeaderboardAway(matchesListAway);
+
+      const generalLeaderBoard = LeaderboardService
+        .createGeneralLeaderboard(leaderBoardHome, leaderBoardAway);
+      return { name: teamName, ...generalLeaderBoard };
+    }));
+    return general;
   }
 
   static async getHomeMatches() {
