@@ -4,6 +4,6 @@ import LeaderboardController from '../controllers/Leaderboard.controller';
 const route = Router();
 
 route.get('/home', LeaderboardController.getHomeMatches);
-// route.get('/home', LeaderboardController.getByTypeTeam);
+route.get('/away', LeaderboardController.getAwayMatches);
 
 export default route;

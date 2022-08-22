@@ -82,3 +82,11 @@ export interface IMatch {
   awayTeamGoals: number,
   inProgress: number
 }
+
+type TypeTeam = 'home' | 'away';
+
+export interface IReqQuery extends Request {
+  params: {
+    type: TypeTeam
+  }
+}
