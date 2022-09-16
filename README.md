@@ -32,6 +32,10 @@ Este projeto tem cunho educacional. Foi desenvolvido para colocar em prática o 
 
   O back-end implementa regras de negócio para popular adequadamente a tabela disponível no front-end que será exibida para a pessoa usuária do sistema.
 
+  Para os testes do back-end foi utilizado o Mocha, Chai, ChaiHttp e Sinon
+
+  Para autenticação foi utilizado o JWT.
+
   ---
 
 </details>
