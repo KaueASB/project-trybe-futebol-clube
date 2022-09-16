@@ -1,0 +1,2 @@
+*.sql linguist-detectable=true
+*.ts linguist-detectable=true
