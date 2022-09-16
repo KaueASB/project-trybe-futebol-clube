@@ -38,7 +38,7 @@ Este projeto tem cunho educacional. Foi desenvolvido para colocar em prática o 
 
   ---
 
-</details>
+</details><br />
 
 <details>
 <summary><strong> Estrutura do projeto</strong></summary><br />
@@ -66,7 +66,7 @@ O projeto é composto de 4 entidades importantes para sua estrutura:
 
   ---
 
-</details>
+</details><br />
 
 <details>
 <summary><strong> ⚠️ Configurações mínimas para execução do projeto</strong></summary><br />
